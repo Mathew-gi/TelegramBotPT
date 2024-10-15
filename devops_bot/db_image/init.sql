@@ -24,7 +24,7 @@ SELECT pg_reload_conf();
 
 CREATE TABLE PhoneNumbers (
     ID SERIAL PRIMARY KEY,
-    phone_number VARCHAR(20) NOT NULL
+    phonenumber VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE Emails (
@@ -34,4 +34,4 @@ CREATE TABLE Emails (
 
 INSERT INTO Emails (email) VALUES ('x@x.com'), ('y@y.com');
 
-INSERT INTO PhoneNumbers (phone_number) VALUES ('+79077855645'), ('8-234-435-89-70');
+INSERT INTO PhoneNumbers (phonenumber) VALUES ('+79077855645'), ('8-234-435-89-70');
