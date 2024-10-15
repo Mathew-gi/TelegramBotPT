@@ -94,8 +94,8 @@ def find_phone_numbers (update: Update, context):
     logging.info("Список телефонных номеров" + str(phone_number_list))
     phone_numbers = '' 
     for i in range(len(phone_number_list)):
-        phone_number = phone_number_list[i]
-        phone_numbers += f'{i+1}. {phone_number}\n'
+        phonenumber = phone_number_list[i]
+        phone_numbers += f'{i+1}. {phonenumber}\n'
         
     update.message.reply_text(phone_numbers) 
     update.message.reply_text('Хотите записать данные в таблицу? Y/N')
@@ -318,10 +318,10 @@ def save_to_base(update: Update, context, data: str, data_type: str):
         update.message.reply_text('OK')
         return ConversationHandler.END 
     result = ""
-    if data_type.lower() == 'phone_numbers':
+    if data_type.lower() == 'phonenumbers':
         for element in data:
             number = element
-            result = execute_postgres_command(f"INSERT INTO PhoneNumbers (phone_number) VALUES ('{number}');")
+            result = execute_postgres_command(f"INSERT INTO PhoneNumbers (phonenumber) VALUES ('{number}');")
     elif data_type.lower() == 'emails':
         for element in data:
             result = execute_postgres_command(f"INSERT INTO Emails (email) VALUES ('{element}');")
@@ -329,7 +329,7 @@ def save_to_base(update: Update, context, data: str, data_type: str):
     if(result == ""): update.message.reply_text("Ошибка выполнения команды")
     else: 
         update.message.reply_text(f'Информация {data_type} успешно записана в базу данных.')
-        if data_type.lower() == 'phone_numbers':
+        if data_type.lower() == 'phonenumbers':
             update.message.reply_text(f'Просмотреть список телефонных номеров: /get_phone_numbers')
         elif data_type.lower() == 'emails':
             update.message.reply_text(f'Просмотреть список электронных почт: /get_emails')
@@ -346,7 +346,7 @@ def main():
         entry_points=[CommandHandler('find_phone_numbers', find_phone_numbers_command)],
         states={
             'find_phone_numbers': [MessageHandler(Filters.text & ~Filters.command, find_phone_numbers)],
-            'save_to_base': [MessageHandler(Filters.text & ~Filters.command, lambda update, context: save_to_base(update, context, context.user_data['phonenumlist'], 'phone_numbers'))]
+            'save_to_base': [MessageHandler(Filters.text & ~Filters.command, lambda update, context: save_to_base(update, context, context.user_data['phonenumlist'], 'phonenumbers'))]
         },
         fallbacks=[]
     )
